@@ -1,23 +1,17 @@
-import React from 'react';
-import { ReactNode } from 'react';
-import Square from '../Square/Square'
-import {SquareValue} from '../../utils/type'
-import './Board.css'
-
+import React from "react";
+import { ReactNode } from "react";
+import Square from "../Square/Square";
+import { SquareValue } from "../../types";
+import "./Board.css";
 
 interface BoardProps {
   onClick(i: number): void;
   squares: SquareValue[];
 }
 
-const Board: React.FC<BoardProps> = props => {
+const Board: React.FC<BoardProps> = (props) => {
   const renderSquare = (i: number): ReactNode => {
-    return (
-      <Square
-        value={props.squares[i]}
-        onClick={() => props.onClick(i)}
-      />
-    );
+    return <Square value={props.squares[i]} onClick={() => props.onClick(i)} />;
   };
 
   return (
@@ -39,6 +33,6 @@ const Board: React.FC<BoardProps> = props => {
       </div>
     </div>
   );
-}
+};
 
-export default Board
+export default Board;
