@@ -1,14 +1,24 @@
+import React from 'react';
+import { ReactNode } from 'react';
 import Square from '../Square/Square'
+import SquareValue from '../Square/Square'
 
-const Board = (props) => {
-  const renderSquare = (i) => {
+type SquareValue = 'X' | 'O' | null;
+
+interface BoardProps {
+  onClick(i: number): void;
+  squares: SquareValue[];
+}
+
+const Board: React.FC<BoardProps> = props => {
+  const renderSquare = (i: number): ReactNode => {
     return (
       <Square
         value={props.squares[i]}
         onClick={() => props.onClick(i)}
       />
-    )
-  }
+    );
+  };
 
   return (
     <div>
