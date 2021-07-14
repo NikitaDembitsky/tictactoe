@@ -1,7 +1,7 @@
 import React from "react";
+import './Square.css'
+import {SquareValue} from '../../utils/type'
 
-
-type SquareValue = 'X' | 'O' | null;
 
 interface SquareProps {
   onClick(): void;

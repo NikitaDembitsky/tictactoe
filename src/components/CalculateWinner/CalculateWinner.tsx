@@ -1,4 +1,4 @@
-type SquareValue = 'X' | 'O' | null;
+import {SquareValue} from '../../utils/type'
 
 const CalculateWinner = (squares: SquareValue[]): SquareValue => {
   const lines = [

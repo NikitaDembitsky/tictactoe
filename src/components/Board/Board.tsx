@@ -1,9 +1,9 @@
 import React from 'react';
 import { ReactNode } from 'react';
 import Square from '../Square/Square'
-import SquareValue from '../Square/Square'
+import {SquareValue} from '../../utils/type'
+import './Board.css'
 
-type SquareValue = 'X' | 'O' | null;
 
 interface BoardProps {
   onClick(i: number): void;
