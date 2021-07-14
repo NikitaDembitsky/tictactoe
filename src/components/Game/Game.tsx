@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-
+import { useMemo } from 'react';
+import {SquareValue} from '../../utils/type'
 import Board from '../Board/Board'
 import CalculateWinner from '../CalculateWinner/CalculateWinner';
+import './Game.css'
 
-type SquareValue = 'X' | 'O' | null;
 
 const Game: React.FC = () => {
   const [xIsNext, setXIsNext] = useState<boolean>(true);
@@ -13,6 +14,7 @@ const Game: React.FC = () => {
       squares: Array(9).fill(null)
     }
   ]);
+
 
   const handleClick = (i: number): void => {
     const newHistory = history.slice(0, stepNumber + 1);
@@ -52,11 +54,15 @@ const Game: React.FC = () => {
   });
 
   let status;
+ 
   if (winner) {
     status = "Winner: " + winner;
   } else {
     status = "Next player: " + (xIsNext ? "X" : "O");
   }
+
+  
+   
 
   return (
     <div className="game">
