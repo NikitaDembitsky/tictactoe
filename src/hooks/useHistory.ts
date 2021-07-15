@@ -13,7 +13,7 @@ function useHistory(): any {
   ]);
   const current = history[stepNumber];
 
-  const push = (i: number) => {
+  const handleClick = (i: number) => {
     const newHistory = history.slice(0, stepNumber + 1);
     const current = newHistory[newHistory.length - 1];
     const squares = current.squares.slice();
@@ -42,9 +42,9 @@ function useHistory(): any {
   return {
     xIsNext,
     history,
-    push,
+    handleClick,
     jumpTo,
-    current
+    current,
   };
 }
 
