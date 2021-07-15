@@ -3,6 +3,8 @@ import { useMemo } from "react";
 import { SquareValue, Symbol } from "../../types";
 import Board from "../Board/Board";
 import "./Game.css";
+import { calculateWinner } from "../../utils";
+import useHistory from "../../hooks/useHistory";
 
 const Game: React.FC = () => {
   const [xIsNext, setXIsNext] = useState<boolean>(true);
@@ -13,29 +15,10 @@ const Game: React.FC = () => {
     },
   ]);
 
-  function useHistory(i: number): void {
-    const newHistory = history.slice(0, stepNumber + 1);
-    const current = newHistory[newHistory.length - 1];
-    const squares = current.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
-      return;
-    }
-    squares[i] = xIsNext ? Symbol.X : Symbol.O;
-    setHistory(
-      newHistory.concat([
-        {
-          squares: squares,
-        },
-      ])
-    );
-    setStepNumber(newHistory.length);
-    setXIsNext(!xIsNext);
-  }
-
   const HandleClick = (i: number): void => {
-     let result = useHistory(i);
+    let resultHistory = useHistory(i);
 
-     return result;
+    return resultHistory;
   };
 
   const jumpTo = (step: number): void => {
@@ -60,7 +43,9 @@ const Game: React.FC = () => {
     if (winner) {
       status = "Winner: " + winner;
     } else {
-      status = "Next player: " + (xIsNext ? "X" : "O");
+      status =
+        "Next player: " +
+        (xIsNext ? Symbol.firstPlayerSymbol : Symbol.secondPlayerSymbol);
     }
     return status;
   };
@@ -77,26 +62,6 @@ const Game: React.FC = () => {
       </div>
     </div>
   );
-};
-
-const calculateWinner = (squares: SquareValue[]): SquareValue => {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
-  return null;
 };
 
 export default Game;

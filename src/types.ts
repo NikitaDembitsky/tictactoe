@@ -1,5 +1,5 @@
 export enum Symbol {
-  X = "X",
-  O = "O",
+  firstPlayerSymbol = "X",
+  secondPlayerSymbol = "O",
 }
-export type SquareValue = Symbol.X | Symbol.O | null;
+export type SquareValue = Symbol | null;

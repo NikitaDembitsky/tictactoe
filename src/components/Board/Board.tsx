@@ -9,9 +9,9 @@ interface Props {
   squares: SquareValue[];
 }
 
-const Board: React.FC<Props> = (props) => {
+const Board: React.FC<Props> = ({onClick, squares}) => {
   const renderSquare = (i: number): ReactNode => {
-    return <Square value={props.squares[i]} onClick={() => props.onClick(i)} />;
+    return <Square value={squares[i]} onClick={() => onClick(i)} />;
   };
 
   return (
