@@ -3,7 +3,7 @@ import { Symbol } from "../types";
 import { useState } from "react";
 import { SquareValue } from "../types";
 
-function useHistory(i: number): void {
+function useHistory(): any {
   const [xIsNext, setXIsNext] = useState<boolean>(true);
   const [stepNumber, setStepNumber] = useState<number>(0);
   const [history, setHistory] = useState<{ squares: SquareValue[] }[]>([
@@ -11,26 +11,41 @@ function useHistory(i: number): void {
       squares: Array(9).fill(null),
     },
   ]);
-  const newHistory = history.slice(0, stepNumber + 1);
-  const current = newHistory[newHistory.length - 1];
-  const squares = current.squares.slice();
+  const current = history[stepNumber];
 
-  if (calculateWinner(squares) || squares[i]) {
-    return;
-  }
-  squares[i] = xIsNext ? Symbol.firstPlayerSymbol : Symbol.secondPlayerSymbol;
-  setHistory(
-    newHistory.concat([
-      {
-        squares: squares,
-      },
-    ])
-  );
-  setStepNumber(newHistory.length);
-  setXIsNext(!xIsNext);
+  const push = (i: number) => {
+    const newHistory = history.slice(0, stepNumber + 1);
+    const current = newHistory[newHistory.length - 1];
+    const squares = current.squares.slice();
 
-  
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+
+    squares[i] = xIsNext ? Symbol.firstPlayerSymbol : Symbol.secondPlayerSymbol;
+    setHistory(
+      newHistory.concat([
+        {
+          squares: squares,
+        },
+      ])
+    );
+    setStepNumber(newHistory.length);
+    setXIsNext(!xIsNext);
+  };
+
+  const jumpTo = (step: number): void => {
+    setStepNumber(step);
+    setXIsNext(step % 2 === 0);
+  };
+
+  return {
+    xIsNext,
+    history,
+    push,
+    jumpTo,
+    current
+  };
 }
-
 
 export default useHistory;

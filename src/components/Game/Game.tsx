@@ -16,17 +16,9 @@ const Game: React.FC = () => {
   ]);
 
   const HandleClick = (i: number): void => {
-    let resultHistory = useHistory(i);
-
-    return resultHistory;
+    
   };
 
-  const jumpTo = (step: number): void => {
-    setStepNumber(step);
-    setXIsNext(step % 2 === 0);
-  };
-
-  const current = history[stepNumber];
   const winner = calculateWinner(current.squares);
 
   const moves = history.map((step, move) => {
