@@ -13,11 +13,11 @@ const Game: React.FC = () => {
     },
   ]);
 
-  const handleClick = (i: number): void => {
+  function useHistory(i: number): void {
     const newHistory = history.slice(0, stepNumber + 1);
     const current = newHistory[newHistory.length - 1];
     const squares = current.squares.slice();
-    if (alculateWinner(squares) || squares[i]) {
+    if (calculateWinner(squares) || squares[i]) {
       return;
     }
     squares[i] = xIsNext ? Symbol.X : Symbol.O;
@@ -30,6 +30,12 @@ const Game: React.FC = () => {
     );
     setStepNumber(newHistory.length);
     setXIsNext(!xIsNext);
+  }
+
+  const HandleClick = (i: number): void => {
+     let result = useHistory(i);
+
+     return result;
   };
 
   const jumpTo = (step: number): void => {
@@ -38,7 +44,7 @@ const Game: React.FC = () => {
   };
 
   const current = history[stepNumber];
-  const winner = alculateWinner(current.squares);
+  const winner = calculateWinner(current.squares);
 
   const moves = history.map((step, move) => {
     const desc = move ? "Go to move #" + move : "Go to game start";
@@ -63,7 +69,7 @@ const Game: React.FC = () => {
   return (
     <div className="game">
       <div className="game-board">
-        <Board squares={current.squares} onClick={(i) => handleClick(i)} />
+        <Board squares={current.squares} onClick={(i) => HandleClick(i)} />
       </div>
       <div className="game-info">
         <div>{status}</div>
@@ -73,7 +79,7 @@ const Game: React.FC = () => {
   );
 };
 
-const alculateWinner = (squares: SquareValue[]): SquareValue => {
+const calculateWinner = (squares: SquareValue[]): SquareValue => {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
