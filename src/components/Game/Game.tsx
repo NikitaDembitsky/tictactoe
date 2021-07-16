@@ -1,51 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { useMemo } from 'react';
-import {SquareValue} from '../../utils/type'
-import Board from '../Board/Board'
-import CalculateWinner from '../CalculateWinner/CalculateWinner';
-import './Game.css'
-
+import { useMemo } from "react";
+import { Symbol } from "../../types";
+import Board from "../Board/Board";
+import "./Game.css";
+import { calculateWinner, checkWinner } from "../../utils";
+import useHistory from "../../hooks/useHistory";
 
 const Game: React.FC = () => {
-  const [xIsNext, setXIsNext] = useState<boolean>(true);
-  const [stepNumber, setStepNumber] = useState<number>(0);
-  const [history, setHistory] = useState<{squares: SquareValue[]}[]>([
-    {
-      squares: Array(9).fill(null)
-    }
-  ]);
+  const { xIsNext, history, handleClick, jumpTo, current } = useHistory();
+  const winner = calculateWinner(current.squares);
 
-
-  const handleClick = (i: number): void => {
-    const newHistory = history.slice(0, stepNumber + 1);
-    const current = newHistory[newHistory.length - 1];
-    const squares = current.squares.slice();
-    if (CalculateWinner(squares) || squares[i]) {
-      return;
-    }
-    squares[i] = xIsNext ? "X" : "O";
-    setHistory(newHistory.concat([
-      {
-        squares: squares
-      }
-    ]));
-    setStepNumber(newHistory.length);
-    setXIsNext(!xIsNext);
-  };
-
-  const jumpTo = (step: number): void => {
-    setStepNumber(step);
-    setXIsNext((step % 2) === 0)
-  };
-
-
-  const current = history[stepNumber];
-  const winner = CalculateWinner(current.squares);
-
-  const moves = history.map((step, move) => {
-    const desc = move ?
-      'Go to move #' + move :
-      'Go to game start';
+  const moves = history.map((step: any, move: any) => {
+    const desc = move ? "Go to move #" + move : "Go to game start";
     return (
       <li key={move}>
         <button onClick={() => jumpTo(move)}>{desc}</button>
@@ -53,24 +18,13 @@ const Game: React.FC = () => {
     );
   });
 
-  let status;
- 
-  if (winner) {
-    status = "Winner: " + winner;
-  } else {
-    status = "Next player: " + (xIsNext ? "X" : "O");
-  }
-
-  
-   
+  let status: string;
+  status = useMemo(() => checkWinner(xIsNext, winner), [xIsNext, winner]);
 
   return (
     <div className="game">
       <div className="game-board">
-        <Board
-          squares={current.squares}
-          onClick={i => handleClick(i)}
-        />
+        <Board squares={current.squares} onClick={(i) => handleClick(i)} />
       </div>
       <div className="game-info">
         <div>{status}</div>
@@ -80,4 +34,4 @@ const Game: React.FC = () => {
   );
 };
 
-export default Game
+export default Game;
