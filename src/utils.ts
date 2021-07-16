@@ -22,4 +22,3 @@ export const checkWinner = (xIsNext: any, winner: any) => {
   }
   return status;
 };
-

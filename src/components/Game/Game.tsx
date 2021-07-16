@@ -8,7 +8,7 @@ import useHistory from "../../hooks/useHistory";
 const Game: React.FC = () => {
   const { xIsNext, history, handleClick, jumpTo, current } = useHistory();
   const winner = calculateWinner(current.squares);
-
+  console.log(current.squares);
   const moves = history.map((step: any, move: any) => {
     const desc = move ? "Go to move #" + move : "Go to game start";
     return (

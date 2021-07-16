@@ -2,10 +2,21 @@ import { calculateWinner } from "../utils";
 import { Symbol } from "../types";
 import { useState } from "react";
 import { SquareValue } from "../types";
+import { useDispatch, useSelector } from "react-redux";
+import { setXIsNext, setStepNumber } from "../redux/actions";
 
-const useHistory = (): {xIsNext:boolean, history: any, handleClick:any, jumpTo: any, current: any } => {
-  const [xIsNext, setXIsNext] = useState<boolean>(true);
-  const [stepNumber, setStepNumber] = useState<number>(0);
+const useHistory = (): {
+  xIsNext: boolean;
+  history: any;
+  handleClick: any;
+  jumpTo: any;
+  current: any;
+} => {
+  const dispath = useDispatch();
+  const stepNumber = useSelector(
+    (state: any) => state.historyReducer.stepNumber
+  );
+  const xIsNext = useSelector((state: any) => state.historyReducer.xIsNext);
   const [history, setHistory] = useState<{ squares: SquareValue[] }[]>([
     {
       squares: Array(9).fill(null),
@@ -30,13 +41,13 @@ const useHistory = (): {xIsNext:boolean, history: any, handleClick:any, jumpTo: 
         },
       ])
     );
-    setStepNumber(newHistory.length);
-    setXIsNext(!xIsNext);
+    dispath(setStepNumber(newHistory.length));
+    dispath(setXIsNext(!xIsNext));
   };
 
   const jumpTo = (step: number): void => {
-    setStepNumber(step);
-    setXIsNext(step % 2 === 0);
+    dispath(setStepNumber(step));
+    dispath(setXIsNext(step % 2 === 0));
   };
 
   return {
