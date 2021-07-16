@@ -3,7 +3,7 @@ import { Symbol } from "../types";
 import { useState } from "react";
 import { SquareValue } from "../types";
 
-function useHistory(): any {
+const useHistory = (): {xIsNext:boolean, history: any, handleClick:any, jumpTo: any, current: any } => {
   const [xIsNext, setXIsNext] = useState<boolean>(true);
   const [stepNumber, setStepNumber] = useState<number>(0);
   const [history, setHistory] = useState<{ squares: SquareValue[] }[]>([
@@ -46,6 +46,6 @@ function useHistory(): any {
     jumpTo,
     current,
   };
-}
+};
 
 export default useHistory;

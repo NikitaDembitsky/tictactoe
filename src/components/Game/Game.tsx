@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
 import { useMemo } from "react";
-import { SquareValue, Symbol } from "../../types";
+import { Symbol } from "../../types";
 import Board from "../Board/Board";
 import "./Game.css";
-import { calculateWinner } from "../../utils";
+import { calculateWinner, checkWinner } from "../../utils";
 import useHistory from "../../hooks/useHistory";
 
 const Game: React.FC = () => {
@@ -20,17 +19,6 @@ const Game: React.FC = () => {
   });
 
   let status: string;
-  const checkWinner = (xIsNext: any, winner: any) => {
-    if (winner) {
-      status = "Winner: " + winner;
-    } else {
-      status =
-        "Next player: " +
-        (xIsNext ? Symbol.firstPlayerSymbol : Symbol.secondPlayerSymbol);
-    }
-    return status;
-  };
-
   status = useMemo(() => checkWinner(xIsNext, winner), [xIsNext, winner]);
 
   return (
