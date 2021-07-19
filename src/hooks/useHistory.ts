@@ -5,9 +5,9 @@ import { setXIsNext, setStepNumber, setHistory } from "../redux/actions";
 
 const useHistory = (): {
   xIsNext: boolean;
-  history: any;
-  handleClick: any;
-  jumpTo: any;
+  history: string[];
+  handleClick: Function;
+  jumpTo: Function;
   current: any;
 } => {
   const dispath = useDispatch();
@@ -22,7 +22,6 @@ const useHistory = (): {
     const newHistory = history.slice(0, stepNumber + 1);
     const current = newHistory[newHistory.length - 1];
     const squares = current.squares.slice();
-
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
@@ -41,7 +40,7 @@ const useHistory = (): {
     dispath(setXIsNext(!xIsNext));
   };
 
-  const jumpTo = (step: number): void => {
+  const jumpTo = (step: number):void => {
     dispath(setStepNumber(step));
     dispath(setXIsNext(step % 2 === 0));
   };

@@ -4,10 +4,12 @@ import "./Game.css";
 import { calculateWinner, checkWinner } from "../../utils";
 import useHistory from "../../hooks/useHistory";
 
+
 const Game: React.FC = () => {
   const { xIsNext, history, handleClick, jumpTo, current } = useHistory();
   const winner = calculateWinner(current.squares);
-  const moves = history.map((step: any, move: any) => {
+  const moves = history.map((step: any, move: number) => {
+    console.log(move)
     const desc = move ? "Go to move #" + move : "Go to game start";
     return (
       <li key={move}>
@@ -18,7 +20,7 @@ const Game: React.FC = () => {
 
   let status: string;
   status = useMemo(() => checkWinner(xIsNext, winner), [xIsNext, winner]);
-  
+
   return (
     <div className="game">
       <div className="game-board">
