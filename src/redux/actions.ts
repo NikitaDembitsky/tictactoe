@@ -1,4 +1,4 @@
-import { SET_X_NEXT, SET_STEPNUMBER } from "./types";
+import { SET_X_NEXT, SET_STEPNUMBER, SET_HISTORY } from "./types";
 
 export const setXIsNext = (data: boolean) => ({
   type: SET_X_NEXT,
@@ -7,5 +7,10 @@ export const setXIsNext = (data: boolean) => ({
 
 export const setStepNumber = (data: number) => ({
   type: SET_STEPNUMBER,
+  payload: data,
+});
+
+export const setHistory = (data: any) => ({
+  type: SET_HISTORY,
   payload: data,
 });

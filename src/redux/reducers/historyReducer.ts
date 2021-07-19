@@ -1,8 +1,13 @@
-import { SET_X_NEXT, SET_STEPNUMBER } from "../types";
+import { SET_X_NEXT, SET_STEPNUMBER, SET_HISTORY } from "../types";
 
 const defaultState = {
   xIsNext: true,
   stepNumber: 0,
+  history: [
+    {
+      squares: Array(9).fill(null),
+    },
+  ],
 };
 
 const historyReducer = (state = defaultState, action: any) => {
@@ -18,6 +23,12 @@ const historyReducer = (state = defaultState, action: any) => {
         stepNumber: action.payload,
       };
 
+    case SET_HISTORY: {
+      return {
+        ...state,
+        history: action.payload,
+      };
+    }
     default:
       return state;
   }

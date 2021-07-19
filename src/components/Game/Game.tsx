@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { Symbol } from "../../types";
 import Board from "../Board/Board";
 import "./Game.css";
 import { calculateWinner, checkWinner } from "../../utils";
@@ -20,7 +19,7 @@ const Game: React.FC = () => {
 
   let status: string;
   status = useMemo(() => checkWinner(xIsNext, winner), [xIsNext, winner]);
-
+  
   return (
     <div className="game">
       <div className="game-board">

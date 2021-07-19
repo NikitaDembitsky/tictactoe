@@ -1,9 +1,7 @@
 import { calculateWinner } from "../utils";
 import { Symbol } from "../types";
-import { useState } from "react";
-import { SquareValue } from "../types";
 import { useDispatch, useSelector } from "react-redux";
-import { setXIsNext, setStepNumber } from "../redux/actions";
+import { setXIsNext, setStepNumber, setHistory } from "../redux/actions";
 
 const useHistory = (): {
   xIsNext: boolean;
@@ -17,11 +15,7 @@ const useHistory = (): {
     (state: any) => state.historyReducer.stepNumber
   );
   const xIsNext = useSelector((state: any) => state.historyReducer.xIsNext);
-  const [history, setHistory] = useState<{ squares: SquareValue[] }[]>([
-    {
-      squares: Array(9).fill(null),
-    },
-  ]);
+  const history = useSelector((state: any) => state.historyReducer.history);
   const current = history[stepNumber];
 
   const handleClick = (i: number) => {
@@ -34,12 +28,14 @@ const useHistory = (): {
     }
 
     squares[i] = xIsNext ? Symbol.firstPlayerSymbol : Symbol.secondPlayerSymbol;
-    setHistory(
-      newHistory.concat([
-        {
-          squares: squares,
-        },
-      ])
+    dispath(
+      setHistory(
+        newHistory.concat([
+          {
+            squares: squares,
+          },
+        ])
+      )
     );
     dispath(setStepNumber(newHistory.length));
     dispath(setXIsNext(!xIsNext));
