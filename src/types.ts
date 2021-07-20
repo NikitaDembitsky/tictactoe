@@ -5,7 +5,7 @@ export enum PlayerSymbol {
 export type SquareValue = PlayerSymbol | null;
 
 export type HistoryStep = {
-  squares: SquareValue[]
+  squares: SquareValue[];
 };
 
 export type BoardHistory = HistoryStep[];

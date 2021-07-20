@@ -1,22 +1,32 @@
 import { BoardHistory } from "../types";
 import { SET_X_NEXT, SET_STEPNUMBER, SET_HISTORY } from "./types";
 
-export type HistoryAction =
-  | { type: "SET_X_NEXT"; payload: boolean }
-  | { type: "SET_STEPNUMBER"; payload: number }
-  | { type: "SET_HISTORY"; payload: BoardHistory };
+export interface xIsNext {
+  type: "SET_X_NEXT";
+  payload: boolean;
+}
 
-export const setXIsNext = (data: boolean): HistoryAction => ({
+export interface stepNumber {
+  type: "SET_STEPNUMBER";
+  payload: number;
+}
+
+export interface historyAction {
+  type: "SET_HISTORY";
+  payload: BoardHistory;
+}
+
+export const setXIsNext = (data: boolean): xIsNext => ({
   type: SET_X_NEXT,
   payload: data,
 });
 
-export const setStepNumber = (data: number): HistoryAction => ({
+export const setStepNumber = (data: number): stepNumber => ({
   type: SET_STEPNUMBER,
   payload: data,
 });
 
-export const setHistory = (data: BoardHistory): HistoryAction => ({
+export const setHistory = (data: BoardHistory): historyAction => ({
   type: SET_HISTORY,
   payload: data,
 });

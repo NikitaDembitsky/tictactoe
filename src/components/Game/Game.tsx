@@ -10,7 +10,6 @@ const Game: React.FC = () => {
   const { xIsNext, history, handleClick, jumpTo, current } = useHistory();
   const winner = calculateWinner(current.squares);
 
-
   const moves = history.map((step: HistoryStep, move: number) => {
     const desc = move ? "Go to move #" + move : "Go to game start";
     return (

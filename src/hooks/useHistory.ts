@@ -1,7 +1,7 @@
 import { calculateWinner } from "../utils";
 import { BoardHistory, HistoryStep, PlayerSymbol } from "../types";
 import { useDispatch, useSelector } from "react-redux";
-import { setXIsNext, setStepNumber, setHistory} from "../redux/actions";
+import { setXIsNext, setStepNumber, setHistory } from "../redux/actions";
 import { RootState } from "../redux/store";
 
 const useHistory = (): {

@@ -11,14 +11,19 @@ export const calculateWinner = (squares: SquareValue[]): SquareValue => {
   return null;
 };
 
-export const checkWinner = (xIsNext: boolean, winner: number | PlayerSymbol | null): string => {
+export const checkWinner = (
+  xIsNext: boolean,
+  winner: PlayerSymbol | null
+): string => {
   let status: string;
   if (winner) {
     status = "Winner: " + winner;
   } else {
     status =
       "Next player: " +
-      (xIsNext ? PlayerSymbol.firstPlayerSymbol : PlayerSymbol.secondPlayerSymbol);
+      (xIsNext
+        ? PlayerSymbol.firstPlayerSymbol
+        : PlayerSymbol.secondPlayerSymbol);
   }
   return status;
 };
