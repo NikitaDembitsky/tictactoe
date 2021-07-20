@@ -1,4 +1,4 @@
-import { SquareValue, Symbol } from "./types";
+import { SquareValue, PlayerSymbol } from "./types";
 import { WINNING_GRID } from "./constants";
 
 export const calculateWinner = (squares: SquareValue[]): SquareValue => {
@@ -11,14 +11,14 @@ export const calculateWinner = (squares: SquareValue[]): SquareValue => {
   return null;
 };
 
-export const checkWinner = (xIsNext: any, winner: any) => {
+export const checkWinner = (xIsNext: boolean, winner: number | PlayerSymbol | null): string => {
   let status: string;
   if (winner) {
     status = "Winner: " + winner;
   } else {
     status =
       "Next player: " +
-      (xIsNext ? Symbol.firstPlayerSymbol : Symbol.secondPlayerSymbol);
+      (xIsNext ? PlayerSymbol.firstPlayerSymbol : PlayerSymbol.secondPlayerSymbol);
   }
   return status;
 };

@@ -1,24 +1,29 @@
 import { calculateWinner } from "../utils";
-import { Symbol } from "../types";
+import { BoardHistory, HistoryStep, PlayerSymbol } from "../types";
 import { useDispatch, useSelector } from "react-redux";
-import { setXIsNext, setStepNumber, setHistory } from "../redux/actions";
+import { setXIsNext, setStepNumber, setHistory} from "../redux/actions";
+import { RootState } from "../redux/store";
 
 const useHistory = (): {
   xIsNext: boolean;
-  history: string[];
-  handleClick: Function;
-  jumpTo: Function;
-  current: any;
+  history: BoardHistory;
+  handleClick: (i: number) => void;
+  jumpTo: (step: number) => void;
+  current: HistoryStep;
 } => {
   const dispath = useDispatch();
   const stepNumber = useSelector(
-    (state: any) => state.historyReducer.stepNumber
+    (state: RootState) => state.historyReducer.stepNumber
   );
-  const xIsNext = useSelector((state: any) => state.historyReducer.xIsNext);
-  const history = useSelector((state: any) => state.historyReducer.history);
-  const current = history[stepNumber];
+  const xIsNext = useSelector(
+    (state: RootState) => state.historyReducer.xIsNext
+  );
+  const history: BoardHistory = useSelector(
+    (state: RootState) => state.historyReducer.history
+  );
+  const current: HistoryStep = history[stepNumber];
 
-  const handleClick = (i: number) => {
+  const handleClick = (i: number): void => {
     const newHistory = history.slice(0, stepNumber + 1);
     const current = newHistory[newHistory.length - 1];
     const squares = current.squares.slice();
@@ -26,7 +31,9 @@ const useHistory = (): {
       return;
     }
 
-    squares[i] = xIsNext ? Symbol.firstPlayerSymbol : Symbol.secondPlayerSymbol;
+    squares[i] = xIsNext
+      ? PlayerSymbol.firstPlayerSymbol
+      : PlayerSymbol.secondPlayerSymbol;
     dispath(
       setHistory(
         newHistory.concat([
@@ -40,7 +47,7 @@ const useHistory = (): {
     dispath(setXIsNext(!xIsNext));
   };
 
-  const jumpTo = (step: number):void => {
+  const jumpTo = (step: number) => {
     dispath(setStepNumber(step));
     dispath(setXIsNext(step % 2 === 0));
   };

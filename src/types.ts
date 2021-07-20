@@ -1,5 +1,11 @@
-export enum Symbol {
+export enum PlayerSymbol {
   firstPlayerSymbol = "X",
   secondPlayerSymbol = "O",
 }
-export type SquareValue = Symbol | null;
+export type SquareValue = PlayerSymbol | null;
+
+export type HistoryStep = {
+  squares: SquareValue[]
+};
+
+export type BoardHistory = HistoryStep[];
