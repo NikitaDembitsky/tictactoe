@@ -1,5 +1,5 @@
 import { SET_X_NEXT, SET_STEPNUMBER, SET_HISTORY } from "../types";
-import { xIsNext, stepNumber, historyAction } from "../actions";
+import { xIsNextAction, stepNumberAction, historyAction } from "../actions";
 import { BoardHistory } from "../../types";
 
 interface historyState {
@@ -20,7 +20,7 @@ const defaultState: historyState = {
 
 const historyReducer = (
   state = defaultState,
-  action: xIsNext | stepNumber | historyAction
+  action: xIsNextAction | stepNumberAction | historyAction
 ): historyState => {
   switch (action.type) {
     case SET_X_NEXT:
