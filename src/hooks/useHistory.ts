@@ -1,42 +1,55 @@
 import { calculateWinner } from "../utils";
-import { Symbol } from "../types";
-import { useState } from "react";
-import { SquareValue } from "../types";
+import { BoardHistory, HistoryStep, PlayerSymbol } from "../types";
+import { useDispatch, useSelector } from "react-redux";
+import { setXIsNext, setStepNumber, setHistory } from "../redux/actions";
+import { RootState } from "../redux/store";
 
-const useHistory = (): {xIsNext:boolean, history: any, handleClick:any, jumpTo: any, current: any } => {
-  const [xIsNext, setXIsNext] = useState<boolean>(true);
-  const [stepNumber, setStepNumber] = useState<number>(0);
-  const [history, setHistory] = useState<{ squares: SquareValue[] }[]>([
-    {
-      squares: Array(9).fill(null),
-    },
-  ]);
-  const current = history[stepNumber];
+const useHistory = (): {
+  xIsNext: boolean;
+  history: BoardHistory;
+  handleClick: (i: number) => void;
+  jumpTo: (step: number) => void;
+  current: HistoryStep;
+} => {
+  const dispath = useDispatch();
+  const stepNumber = useSelector(
+    (state: RootState) => state.historyReducer.stepNumber
+  );
+  const xIsNext = useSelector(
+    (state: RootState) => state.historyReducer.xIsNext
+  );
+  const history: BoardHistory = useSelector(
+    (state: RootState) => state.historyReducer.history
+  );
+  const current: HistoryStep = history[stepNumber];
 
-  const handleClick = (i: number) => {
+  const handleClick = (i: number): void => {
     const newHistory = history.slice(0, stepNumber + 1);
     const current = newHistory[newHistory.length - 1];
     const squares = current.squares.slice();
-
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
 
-    squares[i] = xIsNext ? Symbol.firstPlayerSymbol : Symbol.secondPlayerSymbol;
-    setHistory(
-      newHistory.concat([
-        {
-          squares: squares,
-        },
-      ])
+    squares[i] = xIsNext
+      ? PlayerSymbol.firstPlayerSymbol
+      : PlayerSymbol.secondPlayerSymbol;
+    dispath(
+      setHistory(
+        newHistory.concat([
+          {
+            squares: squares,
+          },
+        ])
+      )
     );
-    setStepNumber(newHistory.length);
-    setXIsNext(!xIsNext);
+    dispath(setStepNumber(newHistory.length));
+    dispath(setXIsNext(!xIsNext));
   };
 
-  const jumpTo = (step: number): void => {
-    setStepNumber(step);
-    setXIsNext(step % 2 === 0);
+  const jumpTo = (step: number) => {
+    dispath(setStepNumber(step));
+    dispath(setXIsNext(step % 2 === 0));
   };
 
   return {
